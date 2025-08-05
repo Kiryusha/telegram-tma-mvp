@@ -26,44 +26,13 @@ const initScene = () => {
   // Создаем куб-комнату
   const roomSize = 20
   const roomGeometry = new THREE.BoxGeometry(roomSize, roomSize, roomSize)
-  const roomMaterial = new THREE.MeshBasicMaterial({ 
-    color: 0x333333,
-    side: THREE.BackSide,
-    transparent: true,
-    opacity: 0.5
-  })
-  const materials = [
-    new THREE.MeshBasicMaterial({ color: 0xff0000, transparent: true, opacity: 0.3, wireframe: true }), // Правая (красная)
-    new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0.3, wireframe: false }), // Левая (зелёная)
-    new THREE.MeshBasicMaterial({ color: 0x0000ff, transparent: true, opacity: 0.3, wireframe: false }), // Верхняя (синяя)
-    new THREE.MeshBasicMaterial({ color: 0xffff00, transparent: true, opacity: 0.3, wireframe: false }), // Нижняя (жёлтая)
-    new THREE.MeshBasicMaterial({ color: 0xff00ff, transparent: true, opacity: 0.3, wireframe: false }), // Задняя (пурпурная)
-    new THREE.MeshBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.3, wireframe: false })  // Передняя (голубая)
-  ]
-  const room = new THREE.Mesh(roomGeometry, materials)
+  const edges = new THREE.EdgesGeometry(roomGeometry)
+  const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xffffff }))
+  scene.add(line)
+
+  const room = new THREE.Mesh(roomGeometry)
   room.geometry.scale(1, 1, 1)
   scene.add(room)
-
-  // Добавляем цветные рамки для каждой стены
-  const borderWidth = 1 // Толщина рамки
-  const borderGeometry = new THREE.BoxGeometry(roomSize + borderWidth, roomSize + borderWidth, borderWidth)
-  const borderPositions = [
-      { x: 0, y: 0, z: roomSize/2 + borderWidth/2, color: 0xff0000 }, // Правая
-      { x: 0, y: 0, z: -roomSize/2 - borderWidth/2, color: 0x00ff00 }, // Левая
-      { x: 0, y: roomSize/2 + borderWidth/2, z: 0, color: 0x0000ff }, // Верхняя
-      { x: 0, y: -roomSize/2 - borderWidth/2, z: 0, color: 0xffff00 }, // Нижняя
-      { x: roomSize/2 + borderWidth/2, y: 0, z: 0, color: 0xff00ff }, // Задняя
-      { x: -roomSize/2 - borderWidth/2, y: 0, z: 0, color: 0x00ffff }  // Передняя
-  ]
-
-  borderPositions.forEach(pos => {
-      const border = new THREE.Mesh(
-          borderGeometry,
-          new THREE.MeshBasicMaterial({ color: pos.color, wireframe: true })
-      )
-      border.position.set(pos.x, pos.y, pos.z)
-      scene.add(border)
-  })
 
   // Добавляем цели (красные сферы)Scene
   const targets: THREE.Mesh[] = []
@@ -97,7 +66,7 @@ const initScene = () => {
   })
 
   // Обработчик событий мыши для дебага
-  const mouseSensitivity = 3
+  const mouseSensitivity = 5
   document.body.addEventListener('mousemove', (event: MouseEvent) => {
     beta.value = (-event.y * (Math.PI / 180)) / mouseSensitivity
     gamma.value = (event.x * (Math.PI / 180)) / mouseSensitivity
