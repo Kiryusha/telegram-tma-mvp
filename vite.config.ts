@@ -7,17 +7,17 @@ const buildTarget = browserslistToEsbuild()
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [vue()],
+  base: '',
 
   build: {
     target: buildTarget,
-    outDir: './dist',
     rollupOptions: {
       output: {
         assetFileNames: () => {
-          return `dist/[name].[hash].[ext]`
+          return `[name].[hash].[ext]`
         },
         entryFileNames: () => {
-          return `dist/[name].[hash].js`
+          return `[name].[hash].js`
         },
       },
     },
