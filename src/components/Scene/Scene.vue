@@ -33,7 +33,7 @@ const initScene = () => {
     opacity: 0.5
   })
   const materials = [
-    new THREE.MeshBasicMaterial({ color: 0xff0000, transparent: true, opacity: 0.3, wireframe: false }), // Правая (красная)
+    new THREE.MeshBasicMaterial({ color: 0xff0000, transparent: true, opacity: 0.3, wireframe: true }), // Правая (красная)
     new THREE.MeshBasicMaterial({ color: 0x00ff00, transparent: true, opacity: 0.3, wireframe: false }), // Левая (зелёная)
     new THREE.MeshBasicMaterial({ color: 0x0000ff, transparent: true, opacity: 0.3, wireframe: false }), // Верхняя (синяя)
     new THREE.MeshBasicMaterial({ color: 0xffff00, transparent: true, opacity: 0.3, wireframe: false }), // Нижняя (жёлтая)
@@ -94,6 +94,12 @@ const initScene = () => {
   window.addEventListener('deviceorientation', (event: DeviceOrientationEvent) => {
     beta.value = event.beta ? event.beta * (Math.PI / 180) : 0  // Преобразуем в радианы
     gamma.value = event.gamma ? event.gamma * (Math.PI / 180) : 0
+  })
+
+  // Обработчик событий мыши для дебага
+  document.body.addEventListener('mousemove', (event: MouseEvent) => {
+    beta.value = -event.y * (Math.PI / 180)
+    gamma.value = -event.x * (Math.PI / 180)
   })
 
   // Обработчик кликов (выстрелов)
