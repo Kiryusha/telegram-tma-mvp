@@ -45,7 +45,7 @@ const initScene = () => {
   scene.add(room)
 
   // Добавляем цветные рамки для каждой стены
-  const borderWidth = 0.2 // Толщина рамки
+  const borderWidth = 1 // Толщина рамки
   const borderGeometry = new THREE.BoxGeometry(roomSize + borderWidth, roomSize + borderWidth, borderWidth)
   const borderPositions = [
       { x: 0, y: 0, z: roomSize/2 + borderWidth/2, color: 0xff0000 }, // Правая
@@ -97,9 +97,10 @@ const initScene = () => {
   })
 
   // Обработчик событий мыши для дебага
+  const mouseSensitivity = 3
   document.body.addEventListener('mousemove', (event: MouseEvent) => {
-    beta.value = -event.y * (Math.PI / 180)
-    gamma.value = -event.x * (Math.PI / 180)
+    beta.value = (-event.y * (Math.PI / 180)) / mouseSensitivity
+    gamma.value = (event.x * (Math.PI / 180)) / mouseSensitivity
   })
 
   // Обработчик кликов (выстрелов)
