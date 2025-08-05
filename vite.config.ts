@@ -14,10 +14,10 @@ export default defineConfig({
     rollupOptions: {
       output: {
         assetFileNames: () => {
-          return `[name].[hash].[ext]`
+          return `dist/[name].[hash].[ext]`
         },
         entryFileNames: () => {
-          return `[name].[hash].js`
+          return `dist/[name].[hash].js`
         },
       },
     },
